@@ -1,5 +1,6 @@
- #
+#
  # Copyright © 2014, Varun Chitre "varun.chitre15" <varun.chitre15@gmail.com>
+ # Copyright © 2015, Sanyam Jain "Men_in_black007" <sanyam.53jain@gmail.com>
  #
  # Custom build script
  #
@@ -24,21 +25,23 @@ yellow='\033[0;33m'
 red='\033[0;31m'
 nocol='\033[0m'
 # Modify the following variable if you want to build
-export CROSS_COMPILE="/home/sanyam/bliss/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-"
-export LD_LIBRARY_PATH=/home/sanyam/bliss/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/lib/
+export CROSS_COMPILE="/home/sanyam/sm_aarch64-linux-android-4.9/bin/aarch64-linux-android-"
+export LD_LIBRARY_PATH=/home/sanyam/sm_aarch64-linux-android-4.9/lib/
 export ARCH=arm64
 export SUBARCH=arm64
 export KBUILD_BUILD_USER="Men_in_black007"
-export KBUILD_BUILD_HOST="FreakMachine"
-STRIP="/home/sanyam/bliss/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/bin/aarch64-linux-android-strip"
-MODULES_DIR=$KERNEL_DIR/../modules
+export KBUILD_BUILD_HOST="AlmightyMachine"
+STRIP="/home/sanyam/sm_aarch64-linux-android-4.9/bin/aarch64-linux-android-strip"
+MODULES_DIR=/home/sanyam/almighty/common
+OUT_DIR=/home/sanyam/almighty/tomato
 
 compile_kernel ()
 {
-echo -e "$blue***********************************************"
-echo "          Compiling kernel          "
-echo -e "***********************************************$nocol"
-rm $KERN_IMG
+echo -e "**********************************************************************************************"
+echo "                    "
+echo "                                        Compiling ALMIGHTY Kernel                    "
+echo "                    "
+echo -e "**********************************************************************************************"
 make cyanogenmod_tomato-64_defconfig
 make Image -j8
 make dtbs -j8
@@ -73,6 +76,23 @@ rm -rf $KERNEL_DIR/arch/arm/boot/dt.img
 compile_kernel
 ;;
 esac
+
+rm -rf $OUT_DIR/AlmightyKernel.zip
+rm -rf $OUT_DIR/tools/*
+rm -rf $OUT_DIR/system/lib/modules/*
+cp -r $KERNEL_DIR/almighty/tools $OUT_DIR
+cp $KERNEL_DIR/arch/arm64/boot/Image  $OUT_DIR/tools
+cp $KERNEL_DIR/arch/arm64/boot/dt.img  $OUT_DIR/tools
+mv $OUT_DIR/tools/Image $OUT_DIR/tools/zImage
+cp $MODULES_DIR/*.ko $OUT_DIR/system/lib/modules/
+cd $OUT_DIR
+zip -r AlmightyKernel.zip *
+cd $KERNEL_DIR
 BUILD_END=$(date +"%s")
 DIFF=$(($BUILD_END - $BUILD_START))
 echo -e "$yellow Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds.$nocol"
+echo -e "**********************************************************************************************"
+echo "                    "
+echo "                                        Enjoy ALMIGHTY Kernel                    "
+echo "                    "
+echo -e "**********************************************************************************************"
