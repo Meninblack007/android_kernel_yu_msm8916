@@ -86,7 +86,7 @@ cp $KERNEL_DIR/arch/arm64/boot/dt.img  $OUT_DIR/tools
 mv $OUT_DIR/tools/Image $OUT_DIR/tools/zImage
 cp $MODULES_DIR/*.ko $OUT_DIR/system/lib/modules/
 cd $OUT_DIR
-zip -r AlmightyKernel-v1.0-$(date +"%Y-%m-%d").zip *
+zip -r AlmightyKernel-v1.0-$(date +"%Y-%m-%d"-%H%M).zip *
 cd $KERNEL_DIR
 BUILD_END=$(date +"%s")
 DIFF=$(($BUILD_END - $BUILD_START))
@@ -94,6 +94,6 @@ echo -e "$yellow Build completed in $(($DIFF / 60)) minute(s) and $(($DIFF % 60)
 echo -e "**********************************************************************************************"
 echo "                    "
 echo "                                        Enjoy ALMIGHTY Kernel                    "
-echo "                                  AlmightyKernel-v1.0-$(date +"%Y-%m-%d").zip  " 
+echo "                               AlmightyKernel-v1.0-$(date +"%Y-%m-%d"-%H%M).zip  " 
 echo " "
 echo -e "**********************************************************************************************"
